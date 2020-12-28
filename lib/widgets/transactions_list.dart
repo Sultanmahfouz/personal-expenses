@@ -15,7 +15,7 @@ class TransactionsList extends StatelessWidget {
       child: ListView.builder(
         itemBuilder: (context, index) {
           return Card(
-            elevation: 5,
+            elevation: 4,
             margin: EdgeInsets.symmetric(vertical: 8, horizontal: 5),
             child: ListTile(
               leading: CircleAvatar(
