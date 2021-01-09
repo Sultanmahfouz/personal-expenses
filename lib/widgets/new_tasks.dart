@@ -1,30 +1,27 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
-class NewTransactions extends StatefulWidget {
+class NewTasks extends StatefulWidget {
   final Function addNewTransaction;
-  NewTransactions(this.addNewTransaction);
+  NewTasks(this.addNewTransaction);
 
   @override
-  _NewTransactionsState createState() => _NewTransactionsState();
+  _NewTasksState createState() => _NewTasksState();
 }
 
-class _NewTransactionsState extends State<NewTransactions> {
-  final titleController = TextEditingController();
-  final amountController = TextEditingController();
+class _NewTasksState extends State<NewTasks> {
+  final _titleController = TextEditingController();
   DateTime _selectedDate;
 
   void submitData() {
-    final enteredTitle = titleController.text;
-    final enteredAmount = double.parse(amountController.text);
+    final enteredTitle = _titleController.text;
 
-    if (enteredTitle.isEmpty || enteredAmount <= 0 || _selectedDate == null) {
+    if (enteredTitle.isEmpty || _selectedDate == null) {
       return;
     }
 
     widget.addNewTransaction(
-      titleController.text,
-      double.parse(amountController.text),
+      _titleController.text,
       _selectedDate,
     );
     Navigator.of(context).pop();
@@ -35,7 +32,7 @@ class _NewTransactionsState extends State<NewTransactions> {
             context: context,
             initialDate: DateTime.now(),
             firstDate: DateTime(2020),
-            lastDate: DateTime.now())
+            lastDate: DateTime(2022))
         .then((pickedDate) {
       if (pickedDate == null) {
         return;
@@ -52,15 +49,17 @@ class _NewTransactionsState extends State<NewTransactions> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.end,
         children: [
-          TextField(
-            controller: titleController,
-            decoration: InputDecoration(labelText: 'Title'),
-            onSubmitted: (_) => submitData,
+          SizedBox(
+            height: 20,
           ),
           TextField(
-            controller: amountController,
-            keyboardType: TextInputType.numberWithOptions(decimal: true),
-            decoration: InputDecoration(labelText: 'Amount'),
+            controller: _titleController,
+            decoration: InputDecoration(
+              labelText: 'Title',
+              border: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(15),
+              ),
+            ),
             onSubmitted: (_) => submitData,
           ),
           Container(
@@ -70,7 +69,7 @@ class _NewTransactionsState extends State<NewTransactions> {
                 Expanded(
                   child: Text(
                     _selectedDate == null
-                        ? 'No chosen data'
+                        ? 'No chosen date'
                         : 'Picked Date: ${DateFormat.yMd().format(_selectedDate)}',
                   ),
                 ),
@@ -79,19 +78,21 @@ class _NewTransactionsState extends State<NewTransactions> {
                   onPressed: _presentDatePicker,
                   child: Text(
                     'Choose a date',
-                    style: TextStyle(fontWeight: FontWeight.bold),
+                    style: TextStyle(
+                        fontWeight: FontWeight.bold, color: Colors.white),
                   ),
                 ),
               ],
             ),
           ),
           RaisedButton(
-              color: Colors.purple,
-              textColor: Colors.white,
-              onPressed: submitData,
-              child: Text(
-                'Add transaction',
-              )),
+            color: Color(0xFF64FCDB),
+            textColor: Colors.black,
+            onPressed: submitData,
+            child: Text(
+              'Add task',
+            ),
+          ),
         ],
       ),
     );
